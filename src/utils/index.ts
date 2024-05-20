@@ -1,1 +1,1 @@
-export * from './extractZodError';
+export * from './extractError';

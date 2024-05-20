@@ -1,6 +1,6 @@
 import { Controller, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RequestX, Sanitize } from 'src/handlers';
+import { RequestX, Sanitize, take } from 'src/handlers';
 import { loginRule } from './auth.rule';
 
 @Controller('auth')
@@ -9,8 +9,7 @@ export class AuthController {
 
   @Post('login')
   @Sanitize(loginRule)
-  create(@Request() req: RequestX) {
-    console.log(req);
-    return req.payload;
+  public create(@Request() req: RequestX) {
+    return take(200, req.payload);
   }
 }

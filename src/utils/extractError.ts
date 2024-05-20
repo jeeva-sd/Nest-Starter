@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+
 export function extractError(error: any): string | null {
   if (typeof error === 'string') return error;
   if (Array.isArray(error)) return error.length > 0 ? error[0] : null;
@@ -14,7 +16,19 @@ export function extractError(error: any): string | null {
 }
 
 export function logError(error: any) {
-  const err = extractError(error);
-  console.error(err);
-  return err;
+  const errorMessage = extractError(error);
+  let filePath = null;
+
+  try {
+    const stackLines = error.stack.split('\n');
+    const firstLine = stackLines[1];
+    filePath = firstLine.substring(firstLine.lastIndexOf('(') + 1, firstLine.lastIndexOf(':'));
+  } catch (e) {
+    console.log('Error occurred while processing stack trace:', extractError(e));
+  }
+
+  Logger.error({
+    error: errorMessage,
+    stack: filePath,
+  });
 }

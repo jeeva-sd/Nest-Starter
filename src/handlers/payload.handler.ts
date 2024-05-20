@@ -1,5 +1,6 @@
-import { applyDecorators, BadRequestException, SetMetadata, UseInterceptors } from '@nestjs/common';
+import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
 import * as yup from 'yup';
+import { ValidationError } from './error.handler';
 
 export const Sanitize = (schema: yup.ObjectSchema<any>) => {
   return applyDecorators(SetMetadata('validationSchema', schema), UseInterceptors(new ValidationInterceptor(schema)));
@@ -10,6 +11,7 @@ export class ValidationInterceptor {
 
   async intercept(context, next) {
     const request = context.switchToHttp().getRequest();
+
     try {
       let params: any = {};
 
@@ -26,8 +28,9 @@ export class ValidationInterceptor {
       request.payload = validatedPayload;
       request.sanitized = true;
       return next.handle();
-    } catch (error) {
-      throw new BadRequestException(error?.errors[0]);
+    } catch (e) {
+      const error = e?.errors?.length ? e.errors[0] : 'Payload validation failed';
+      throw new ValidationError(error);
     }
   }
 }
