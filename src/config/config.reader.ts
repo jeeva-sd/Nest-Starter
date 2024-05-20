@@ -5,12 +5,11 @@ import { AppConfig, AppConfigSchema } from './config.schema';
 
 @Injectable()
 export class ConfigReader {
-  private readonly config: AppConfig;
+  private config: AppConfig;
   private readonly logger = new Logger(ConfigReader.name);
 
   constructor() {
     const env = process.env.NODE_ENV || 'development';
-
     // Construct absolute paths to the JSON configuration files
     const basePath = path.resolve(__dirname, '../../envs/base.json');
     const envPath = path.resolve(__dirname, `../../envs/${env}.json`);
@@ -20,13 +19,19 @@ export class ConfigReader {
     const envConfig = JSON.parse(fs.readFileSync(envPath, 'utf8')) as Partial<AppConfig>;
 
     // Read and parse the JSON configurations
-    const mergedConfig = this.mergeConfigs(baseConfig, envConfig);
-    const validatedConfig = AppConfigSchema.validate(mergedConfig).catch((err) => {
-      this.logger.error(err);
-      process.exit(1);
-    });
+    this.config = this.mergeConfigs(baseConfig, envConfig);
 
-    this.config = validatedConfig as AppConfig;
+    this.initConfig();
+  }
+
+  private async initConfig() {
+    try {
+      const validatedConfig = await AppConfigSchema.validate(this.config);
+      this.config = validatedConfig as AppConfig;
+    } catch (error) {
+      this.logger.error(error);
+      process.exit(1);
+    }
   }
 
   private mergeConfigs(baseConfig: AppConfig, envConfig: Partial<AppConfig>): AppConfig {
