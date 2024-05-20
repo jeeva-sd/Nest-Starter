@@ -10,7 +10,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const exceptionResponse: any = exception.getResponse();
     const errorCode = exceptionResponse.code > 100 && exceptionResponse.code < 1000 ? exceptionResponse.code : 400;
-    response.status(errorCode).json(exceptionResponse);
+    response.code(errorCode).send(exceptionResponse);
   }
 }
 
@@ -41,6 +41,6 @@ export class AllExceptionsFilter {
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     logError(exception);
 
-    response.status(status).send(customResponse(HttpStatus.INTERNAL_SERVER_ERROR, null, null, exception));
+    response.code(status).send(customResponse(HttpStatus.INTERNAL_SERVER_ERROR, null, null, exception));
   }
 }

@@ -3,10 +3,7 @@ import { AuthService } from './auth.service';
 import { RequestX, Sanitize, take } from 'src/server';
 import { loginValidation } from './auth.validation';
 
-@Controller({
-  version: '1',
-  path: 'auth',
-})
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

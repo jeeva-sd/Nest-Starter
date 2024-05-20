@@ -3,9 +3,11 @@ import { AppModule } from './app.module';
 import { ConfigReader } from '../config';
 import { Logger, VersioningType } from '@nestjs/common';
 import { AllExceptionsFilter, HttpExceptionFilter } from './handlers';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+
   const configService = app.get(ConfigReader);
   const appPort = configService.get('port');
 
