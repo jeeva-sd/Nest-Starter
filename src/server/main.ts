@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigReader } from './config';
-import { Logger } from '@nestjs/common';
+import { ConfigReader } from '../config';
+import { Logger, VersioningType } from '@nestjs/common';
 import { AllExceptionsFilter, HttpExceptionFilter } from './handlers';
 
 async function bootstrap() {
@@ -11,6 +11,9 @@ async function bootstrap() {
 
   // Exception filters
   app.useGlobalFilters(new AllExceptionsFilter(), new HttpExceptionFilter());
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   await app.listen(appPort);
   const logger = new Logger('Bootstrap');

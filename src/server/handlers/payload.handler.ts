@@ -34,8 +34,3 @@ export class ValidationInterceptor {
     }
   }
 }
-
-export interface RequestX extends Request {
-  payload: any;
-  sanitized: boolean;
-}

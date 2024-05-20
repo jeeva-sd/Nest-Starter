@@ -1,9 +1,12 @@
 import { Controller, HttpCode, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RequestX, Sanitize, take } from 'src/handlers';
+import { RequestX, Sanitize, take } from 'src/server';
 import { loginValidation } from './auth.validation';
 
-@Controller('auth')
+@Controller({
+  version: '1',
+  path: 'auth',
+})
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
