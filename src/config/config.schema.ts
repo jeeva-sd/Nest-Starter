@@ -23,5 +23,6 @@ export const AppConfigSchema = yup.object().shape({
 // Config types
 type DatabaseConfig = yup.InferType<typeof databaseConfigSchema>;
 type AppConfig = yup.InferType<typeof AppConfigSchema>;
+type PayloadValidationConfig = yup.InferType<typeof payloadValidationSchema>;
 
-export type { AppConfig, DatabaseConfig };
+export type { AppConfig, DatabaseConfig, PayloadValidationConfig };

@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
 import * as yup from 'yup';
 import { ValidationError } from './error.handler';
@@ -18,6 +20,26 @@ export class ValidationInterceptor {
       if (request.body) params = { ...params, ...request.body };
       if (request.params) params = { ...params, ...request.params };
       if (request.query) params = { ...params, ...request.query };
+
+      // Process multipart data
+      if (request.isMultipart()) {
+        const parts = await request.parts();
+        for await (const part of parts) {
+          if (part.file) {
+            const uploadDir = path.join('public', 'uploads');
+
+            const filename = part.filename;
+            const filePath = path.join(uploadDir, filename);
+
+            await fs.promises.mkdir(uploadDir, { recursive: true });
+            await fs.promises.writeFile(filePath, part.file);
+            // Set buffer to a specific key, for example 'fileBuffer'
+            params[part.fieldname] = part.file;
+          } else {
+            params[part.fieldname] = part.value;
+          }
+        }
+      }
 
       const validatedPayload = await this.schema.validate(params, {
         abortEarly: true,
