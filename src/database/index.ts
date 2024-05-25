@@ -1,1 +1,2 @@
-export * from './localDB';
+export * from './SQLConnections';
+export * from './localDB.schema';

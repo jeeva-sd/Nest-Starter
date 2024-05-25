@@ -1,7 +1,7 @@
-import { extractError } from '../../utils';
+import { log } from 'console';
 import { localDB } from './localDB.connection';
 import { localSchema } from './localDB.schema';
-import { log } from 'console';
+import { extractError } from 'src/utils';
 
 export async function seedDatabase(): Promise<void> {
   try {
