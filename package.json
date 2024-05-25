@@ -20,10 +20,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:drop": "drizzle-kit drop",
     "db:studio": "drizzle-kit studio",
-    "db:check": "drizzle-kit check:mysql",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:introspect": "drizzle-kit introspect:mysql",
-    "db:migrate": "ts-node src/database/localDB/localDB.schema.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:introspect": "drizzle-kit introspect",
+    "db:migrate": "drizzle-kit migrate",
     "db:seed": "ts-node src/database/localDB/localDB.schema.ts"
   },
   "dependencies": {
