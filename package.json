@@ -17,15 +17,24 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:drop": "drizzle-kit drop",
+    "db:studio": "drizzle-kit studio",
+    "db:check": "drizzle-kit check:mysql",
+    "db:generate": "drizzle-kit generate:mysql",
+    "db:introspect": "drizzle-kit introspect:mysql",
+    "db:migrate": "ts-node src/database/localDB/localDB.schema.ts",
+    "db:seed": "ts-node src/database/localDB/localDB.schema.ts"
   },
   "dependencies": {
     "@fastify/multipart": "^8.2.0",
     "@fastify/static": "^7.0.4",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-fastify": "^10.3.8",
     "drizzle-orm": "^0.30.10",
+    "mysql2": "^3.9.7",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "yup": "^1.4.0"
@@ -39,6 +48,7 @@
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "drizzle-kit": "^0.21.4",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
