@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigReader } from '../config';
 import { AuthModule } from '../modules/auth/auth.module';
+import { UserModule } from 'src/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule],
-  providers: [ConfigReader],
+  imports: [AuthModule, UserModule],
+  providers: [],
 })
 export class AppModule {}

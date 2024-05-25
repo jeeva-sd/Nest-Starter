@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigReader } from 'src/config';
+import { LoginPayload } from './auth.validation';
 
 @Injectable()
 export class AuthService {
-  findAll() {
+  constructor(private configReader: ConfigReader) {}
+
+  async findAll(payload: LoginPayload) {
+    const port = this.configReader.get('port');
+    console.log(port, payload, 'port');
     return `This action returns all auth`;
   }
 
