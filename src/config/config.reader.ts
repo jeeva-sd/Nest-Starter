@@ -1,14 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { AppConfig, AppConfigSchema } from './config.schema';
 
-@Injectable()
-export class ConfigReader {
+class ConfigReader {
+  private static instance: ConfigReader;
   private config: AppConfig;
   private readonly logger = new Logger(ConfigReader.name);
 
-  constructor() {
+  private constructor() {
     const env = process.env.NODE_ENV || 'development';
     // Construct absolute paths to the JSON configuration files
     const basePath = path.resolve(__dirname, '../../envs/base.json');
@@ -18,9 +18,10 @@ export class ConfigReader {
     const baseConfig = JSON.parse(fs.readFileSync(basePath, 'utf8')) as AppConfig;
     const envConfig = JSON.parse(fs.readFileSync(envPath, 'utf8')) as Partial<AppConfig>;
 
-    // Read and parse the JSON configurations
+    // Merge the base and environment configurations
     this.config = this.mergeConfigs(baseConfig, envConfig);
 
+    // Validate and initialize the configuration
     this.initConfig();
   }
 
@@ -51,7 +52,16 @@ export class ConfigReader {
     return baseConfig;
   }
 
+  static getInstance(): ConfigReader {
+    if (!ConfigReader.instance) {
+      ConfigReader.instance = new ConfigReader();
+    }
+    return ConfigReader.instance;
+  }
+
   get<K extends keyof AppConfig>(key: K): AppConfig[K] {
     return this.config[key];
   }
 }
+
+export const appConfig = ConfigReader.getInstance();
