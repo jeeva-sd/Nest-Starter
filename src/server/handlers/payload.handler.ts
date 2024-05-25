@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
 import * as yup from 'yup';
+import { appConfig } from 'src/config';
 import { ValidationError } from './error.handler';
 
 export const Sanitize = (schema: yup.ObjectSchema<any>) => {
@@ -41,11 +42,7 @@ export class ValidationInterceptor {
         }
       }
 
-      const validatedPayload = await this.schema.validate(params, {
-        abortEarly: true,
-        stripUnknown: true,
-        recursive: true,
-      });
+      const validatedPayload = await this.schema.validate(params, appConfig.get('payloadValidation'));
 
       request.payload = validatedPayload;
       request.sanitized = true;
