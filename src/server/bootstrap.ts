@@ -39,13 +39,13 @@ class Bootstrap {
   }
 
   private async enableVersioning(app: NestFastifyApplication): Promise<void> {
-    app.enableVersioning({ type: VersioningType.URI });
+    app.setGlobalPrefix(appConfig.get('appPrefix'));
+    app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
   }
 
   private async listen(app: NestFastifyApplication): Promise<void> {
-    const appPort = appConfig.get('port');
-    await app.listen(appPort);
-    this.logger.log(`Listening on port ${appPort}`);
+    await app.listen(appConfig.get('appPort'));
+    this.logger.log(`Listening on port ${appConfig.get('appPort')}`);
   }
 }
 

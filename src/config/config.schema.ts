@@ -32,7 +32,8 @@ const multipartOptionsSchema = yup.object().shape({
 });
 
 export const AppConfigSchema = yup.object().shape({
-  port: yup.number(),
+  appPort: yup.number().default(3050),
+  appPrefix: yup.string().default('api'),
   server: serverOptionsSchema,
   database: databaseConfigSchema,
   payloadValidation: payloadValidationSchema,
