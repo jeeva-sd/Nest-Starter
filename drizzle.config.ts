@@ -12,10 +12,7 @@ export default defineConfig({
     database: dbConfig.dbName,
     port: dbConfig.port,
   },
-  migrations: {
-    table: 'migrations',
-    schema: './src/database/localDB/localDB.schema.ts',
-  },
   schema: './src/database/localDB/localDB.schema.ts',
   introspect: { casing: 'camel' },
+  out: 'migrations',
 });
