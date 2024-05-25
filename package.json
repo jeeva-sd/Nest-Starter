@@ -27,7 +27,7 @@
     "db:pull": "drizzle-kit introspect",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "ts-node src/database/localDB/localDB.schema.ts"
+    "db:seed": "ts-node -r tsconfig-paths/register  src/database/localDB/localDB.seed.ts"
   },
   "dependencies": {
     "@fastify/multipart": "^8.2.0",

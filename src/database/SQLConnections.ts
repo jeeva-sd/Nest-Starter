@@ -5,7 +5,7 @@ import { SQLManager } from './SQLManager';
 const spConfig = appConfig.get('database');
 
 const connectionConfig: SqlConnectionConfig = {
-  testDB: {
+  localDB: {
     host: spConfig.host,
     user: spConfig.username,
     port: spConfig.port,

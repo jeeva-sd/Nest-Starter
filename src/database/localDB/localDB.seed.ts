@@ -1,4 +1,4 @@
-import { extractError } from 'src/utils';
+import { extractError } from '../../utils';
 import { localDB } from './localDB.connection';
 import { localSchema } from './localDB.schema';
 import { log } from 'console';

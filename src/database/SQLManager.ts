@@ -4,11 +4,11 @@ import { SqlConnectionConfig } from './type';
 import { log } from 'console';
 
 export class SQLManager {
-  private connections: { [key: string]: Pool } = {};
+  private connections: { [key in keyof SqlConnectionConfig]: Pool } = {};
 
   constructor(private connectionConfig: SqlConnectionConfig) {}
 
-  public getConnection(name: string, schema: Record<string, unknown> | undefined): MySql2Database<Record<string, unknown>> {
+  public getConnection(name: keyof SqlConnectionConfig, schema: Record<string, unknown> | undefined): MySql2Database<Record<string, unknown>> {
     if (this.connections[name]) {
       return drizzle(this.connections[name], { schema, mode: 'default' });
     } else if (this.connectionConfig[name]) {

@@ -11,8 +11,8 @@ class ConfigReader {
   private constructor() {
     const env = process.env.NODE_ENV || 'development';
     // Construct absolute paths to the JSON configuration files
-    const basePath = path.resolve(__dirname, '../../envs/base.json');
-    const envPath = path.resolve(__dirname, `../../envs/${env}.json`);
+    const basePath = path.resolve(__dirname, '../../../envs/base.json');
+    const envPath = path.resolve(__dirname, `../../../envs/${env}.json`);
 
     // Read and parse the JSON configurations
     const baseConfig = JSON.parse(fs.readFileSync(basePath, 'utf8')) as AppConfig;
